@@ -28,8 +28,8 @@ jobs:
           # In-game build label (Scripts/Core/BuildInfo.cs)
           sed -i "s/public const string Number = \"dev\";/public const string Number = \"$BUILD\";/" Scripts/Core/BuildInfo.cs
           # Windows .exe file metadata (export_presets.cfg)
-          sed -i "s|application/file_version=\"\"|application/file_version=\"1.0.0.$BUILD\"|" export_presets.cfg
-          sed -i "s|application/product_version=\"\"|application/product_version=\"1.0.0.$BUILD\"|" export_presets.cfg
+          sed -i "s|application/file_version=\"\"|application/file_version=\"0.0.0.$BUILD\"|" export_presets.cfg
+          sed -i "s|application/product_version=\"\"|application/product_version=\"0.0.0.$BUILD\"|" export_presets.cfg
           echo "Stamped build #$BUILD"
           grep -E "Number =|file_version|product_version" Scripts/Core/BuildInfo.cs export_presets.cfg
 
