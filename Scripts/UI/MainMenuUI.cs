@@ -49,6 +49,19 @@ public partial class MainMenuUI : Control
         hint.AddThemeFontSizeOverride("font_size", 13);
         hint.AddThemeColorOverride("font_color", Color.FromHtml("#555544"));
         vbox.AddChild(hint);
+
+        // Build number, pinned to the bottom-left corner
+        var build = new Label
+        {
+            Text = $"Build {BuildInfo.Number}",
+            LayoutMode = 1,
+        };
+        build.SetAnchorsAndOffsetsPreset(LayoutPreset.BottomLeft);
+        build.OffsetLeft = 8;
+        build.OffsetTop = -24;
+        build.AddThemeFontSizeOverride("font_size", 12);
+        build.AddThemeColorOverride("font_color", Color.FromHtml("#444433"));
+        AddChild(build);
     }
 
     private Button MakeButton(string text, System.Action onPress, string hexColor)
