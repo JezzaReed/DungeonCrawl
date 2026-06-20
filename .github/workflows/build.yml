@@ -19,6 +19,12 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: Build C# solution
+        run: dotnet build "New Game Project.sln" --configuration Release
+
+      - name: Create export output directory
+        run: mkdir -p build/web
+
       - name: Export with Godot
         uses: firebelley/godot-export@v6.0.0
         with:
@@ -27,9 +33,10 @@ jobs:
           relative_project_path: ./
           export_debug: false
           cache: true
+          use_preset_export_path: true
 
-      - name: Copy SWA config into export
-        run: cp staticwebapp.config.json ${{ github.workspace }}/exports/Web/
+      - name: Copy SWA config into build
+        run: cp staticwebapp.config.json build/web/
 
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
@@ -37,5 +44,5 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: upload
-          app_location: exports/Web
+          app_location: build/web
           skip_app_build: true
