@@ -37,8 +37,9 @@ public partial class MainMenuUI : Control
         vbox.AddChild(spacer);
 
         // Buttons
-        vbox.AddChild(MakeButton("New Game", OnNewGame, "#44cc44"));
-        vbox.AddChild(MakeButton("Quit",     OnQuit,    "#cc4444"));
+        vbox.AddChild(MakeButton("New Game",    OnNewGame,    "#44cc44"));
+        vbox.AddChild(MakeButton("High Scores", OnHighScores, "#c8a020"));
+        vbox.AddChild(MakeButton("Quit",        OnQuit,       "#cc4444"));
 
         // Controls hint
         var hint = new Label
@@ -73,6 +74,7 @@ public partial class MainMenuUI : Control
         return btn;
     }
 
-    private void OnNewGame() => GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");
-    private void OnQuit()    => GetTree().Quit();
+    private void OnNewGame()    => GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");
+    private void OnHighScores() => GetTree().ChangeSceneToFile("res://Scenes/Leaderboard.tscn");
+    private void OnQuit()       => GetTree().Quit();
 }

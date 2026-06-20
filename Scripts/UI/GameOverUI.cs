@@ -29,6 +29,7 @@ public partial class GameOverUI : Control
         {
             var p = gm.Player;
             string stats =
+                $"Killed by:      {p.KilledBy}\n" +
                 $"Floor reached:  {p.Floor}\n" +
                 $"Enemies slain:  {p.KillCount}\n" +
                 $"Final score:    {p.Score}";
@@ -37,6 +38,21 @@ public partial class GameOverUI : Control
             statsLabel.AddThemeFontSizeOverride("font_size", 20);
             statsLabel.AddThemeColorOverride("font_color", Color.FromHtml("#aa8844"));
             vbox.AddChild(statsLabel);
+        }
+
+        // Leaderboard standing
+        int rank = gm.LastRunRank;
+        if (rank > 0)
+        {
+            bool isTop = rank == 1;
+            var banner = new Label
+            {
+                Text = isTop ? "★ NEW HIGH SCORE! ★" : $"Leaderboard rank #{rank}",
+                HorizontalAlignment = HorizontalAlignment.Center,
+            };
+            banner.AddThemeFontSizeOverride("font_size", isTop ? 26 : 20);
+            banner.AddThemeColorOverride("font_color", Color.FromHtml(isTop ? "#ffdd44" : "#c8a020"));
+            vbox.AddChild(banner);
         }
 
         // Last messages
@@ -54,8 +70,9 @@ public partial class GameOverUI : Control
         var spacer = new Control { CustomMinimumSize = new Vector2(0, 10) };
         vbox.AddChild(spacer);
 
-        vbox.AddChild(MakeButton("Play Again", OnPlayAgain, "#44cc44"));
-        vbox.AddChild(MakeButton("Quit",       OnQuit,      "#cc4444"));
+        vbox.AddChild(MakeButton("Play Again",  OnPlayAgain,  "#44cc44"));
+        vbox.AddChild(MakeButton("Leaderboard", OnLeaderboard, "#c8a020"));
+        vbox.AddChild(MakeButton("Quit",        OnQuit,       "#cc4444"));
     }
 
     private Button MakeButton(string text, System.Action onPress, string hex)
@@ -68,5 +85,12 @@ public partial class GameOverUI : Control
     }
 
     private void OnPlayAgain() => GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");
-    private void OnQuit()      => GetTree().Quit();
+
+    private void OnLeaderboard()
+    {
+        LeaderboardUI.HighlightRank = GameManager.Instance.LastRunRank;
+        GetTree().ChangeSceneToFile("res://Scenes/Leaderboard.tscn");
+    }
+
+    private void OnQuit() => GetTree().Quit();
 }

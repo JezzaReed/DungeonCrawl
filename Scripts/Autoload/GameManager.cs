@@ -20,6 +20,10 @@ public partial class GameManager : Node
 
     [Signal] public delegate void StateChangedEventHandler();
 
+    // ── Last finished run (for the game-over screen / leaderboard) ──
+    public RunRecord? LastRun     { get; private set; }
+    public int        LastRunRank { get; private set; } = -1;
+
     private readonly DungeonGenerator _gen = new();
 
     public override void _Ready() => Instance = this;
@@ -149,8 +153,10 @@ public partial class GameManager : Node
                 MeleeAttack(enemy.Stats, Player.Stats, $"The {enemy.Stats.Name}", "you");
                 if (!Player.Stats.IsAlive)
                 {
+                    Player.KilledBy = enemy.Stats.Name;
                     Log.Add("You have died. GAME OVER.", "#ff2222");
                     Turns.SetGameOver();
+                    RecordRun();
                     EmitSignal(SignalName.StateChanged);
                     return;
                 }
@@ -165,6 +171,22 @@ public partial class GameManager : Node
 
         Enemies.RemoveAll(e => e.IsDead);
         Turns.EndEnemyTurn();
+    }
+
+    private void RecordRun()
+    {
+        if (Player == null) return;
+
+        LastRun = new RunRecord
+        {
+            Score    = Player.Score,
+            Floor    = Player.Floor,
+            Level    = Player.Level,
+            Kills    = Player.KillCount,
+            KilledBy = Player.KilledBy,
+            Date     = DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
+        };
+        LastRunRank = Leaderboard.Submit(LastRun);
     }
 
     private void DescendStairs()
