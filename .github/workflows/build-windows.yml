@@ -1,0 +1,48 @@
+name: Build Windows
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Export Windows Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build C# solution
+        run: dotnet build "New Game Project.sln"
+
+      - name: Create export output directory
+        run: mkdir -p build/windows
+
+      - name: Export with Godot
+        uses: firebelley/godot-export@v6.0.0
+        with:
+          godot_executable_download_url: "https://github.com/godotengine/godot-builds/releases/download/4.7-stable/Godot_v4.7-stable_mono_linux_x86_64.zip"
+          godot_export_templates_download_url: "https://github.com/godotengine/godot-builds/releases/download/4.7-stable/Godot_v4.7-stable_mono_export_templates.tpz"
+          relative_project_path: ./
+          export_debug: false
+          cache: true
+          use_preset_export_path: true
+
+      - name: Zip the Windows build
+        run: |
+          cd build/windows
+          zip -r ../../DungeonCrawl-windows.zip .
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DungeonCrawl-windows-${{ github.run_number }}
+          path: DungeonCrawl-windows.zip
+          retention-days: 90
