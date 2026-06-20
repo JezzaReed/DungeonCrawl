@@ -4,11 +4,13 @@ A 2D dungeon-crawl roguelike built in **Godot 4.7** with **C# / .NET 8**. Proced
 
 ## Download
 
-**[⬇ Download the latest Windows build](https://github.com/JezzaReed/DungeonCrawl/releases/latest/download/DungeonCrawl-windows.zip)**
+**[⬇ Download the latest Windows build](https://github.com/JezzaReed/DungeonCrawl/releases/download/latest/DungeonCrawl-windows.zip)**
 
 Extract the zip and run `DungeonCrawl.exe`. No installer required.
 
 > The build is produced automatically from the latest push to `main`, so this link always serves the most recent version.
+>
+> This repository is currently **private**, so downloading requires being signed in to GitHub with access to the repo.
 
 ## Features
 
