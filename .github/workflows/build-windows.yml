@@ -5,6 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Export Windows Build
@@ -46,3 +49,14 @@ jobs:
           name: DungeonCrawl-windows-${{ github.run_number }}
           path: DungeonCrawl-windows.zip
           retention-days: 90
+
+      - name: Publish to rolling "latest" release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest Windows Build
+          body: |
+            Automated Windows build from the latest push to `main`.
+            Commit: ${{ github.sha }}
+          prerelease: true
+          files: DungeonCrawl-windows.zip
