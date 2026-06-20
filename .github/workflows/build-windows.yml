@@ -65,7 +65,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: latest
-          name: Build #${{ github.run_number }}
+          name: "Build #${{ github.run_number }}"
           body: |
             Automated Windows build #${{ github.run_number }} from the latest push to `main`.
             Commit: ${{ github.sha }}
