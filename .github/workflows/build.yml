@@ -20,7 +20,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Build C# solution
-        run: dotnet build "New Game Project.sln" --configuration Release
+        run: dotnet build "New Game Project.sln"
 
       - name: Create export output directory
         run: mkdir -p build/web
