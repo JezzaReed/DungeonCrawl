@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- shield outline / border -->
+  <rect x="3"  y="1"  width="10" height="1" fill="#775533"/>
+  <rect x="2"  y="2"  width="12" height="8" fill="#775533"/>
+  <rect x="3"  y="10" width="10" height="2" fill="#775533"/>
+  <rect x="4"  y="12" width="8"  height="2" fill="#775533"/>
+  <rect x="6"  y="14" width="4"  height="1" fill="#775533"/>
+  <rect x="7"  y="15" width="2"  height="1" fill="#775533"/>
+  <!-- shield face -->
+  <rect x="3"  y="2"  width="10" height="7" fill="#aa8844"/>
+  <rect x="4"  y="9"  width="8"  height="2" fill="#aa8844"/>
+  <rect x="5"  y="11" width="6"  height="2" fill="#aa8844"/>
+  <rect x="7"  y="13" width="2"  height="2" fill="#aa8844"/>
+  <!-- wood grain lines -->
+  <rect x="4"  y="3"  width="8"  height="1" fill="#996633"/>
+  <rect x="4"  y="5"  width="8"  height="1" fill="#996633"/>
+  <rect x="4"  y="7"  width="8"  height="1" fill="#996633"/>
+  <!-- highlight edge -->
+  <rect x="3"  y="2"  width="1"  height="7" fill="#ccaa55"/>
+  <rect x="3"  y="2"  width="10" height="1" fill="#ccaa55"/>
+  <!-- central boss stud -->
+  <rect x="7"  y="5"  width="2"  height="2" fill="#ddcc88"/>
+  <rect x="6"  y="6"  width="4"  height="1" fill="#ddcc88"/>
+  <rect x="7"  y="5"  width="2"  height="1" fill="#eedd99"/>
+</svg>

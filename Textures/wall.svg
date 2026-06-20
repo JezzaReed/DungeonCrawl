@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <rect width="16" height="16" fill="#0a0806"/>
+  <!-- top highlight face -->
+  <rect x="1" y="1" width="14" height="4" fill="#5c5248"/>
+  <rect x="1" y="1" width="14" height="1" fill="#6e6258"/>
+  <!-- left brick upper row -->
+  <rect x="1" y="5" width="6" height="5" fill="#3a3530"/>
+  <!-- right brick upper row -->
+  <rect x="8" y="5" width="7" height="5" fill="#3a3530"/>
+  <!-- mortar horizontal mid -->
+  <rect x="1" y="10" width="14" height="1" fill="#0a0806"/>
+  <!-- left-centre brick lower row -->
+  <rect x="1" y="11" width="10" height="4" fill="#322e2b"/>
+  <!-- right brick lower row -->
+  <rect x="12" y="11" width="3" height="4" fill="#322e2b"/>
+  <!-- mortar verticals upper -->
+  <rect x="7" y="5" width="1" height="5" fill="#0a0806"/>
+  <!-- mortar verticals lower -->
+  <rect x="11" y="11" width="1" height="4" fill="#0a0806"/>
+  <!-- shadow bottom -->
+  <rect x="1" y="14" width="14" height="1" fill="#1a1816"/>
+</svg>

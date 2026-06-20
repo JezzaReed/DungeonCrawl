@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- head — very wide, hunched low -->
+  <rect x="2" y="1" width="12" height="5" fill="#337744"/>
+  <rect x="1" y="2" width="14" height="3" fill="#337744"/>
+  <!-- wart bumps -->
+  <rect x="3"  y="1" width="1" height="1" fill="#449955"/>
+  <rect x="8"  y="1" width="1" height="1" fill="#449955"/>
+  <rect x="12" y="2" width="1" height="1" fill="#449955"/>
+  <!-- brow shadow -->
+  <rect x="2" y="2" width="12" height="1" fill="#225533"/>
+  <!-- eyes — small yellow -->
+  <rect x="4" y="3" width="3" height="2" fill="#aacc00"/>
+  <rect x="9" y="3" width="3" height="2" fill="#aacc00"/>
+  <rect x="5" y="3" width="1" height="1" fill="#0a0806"/>
+  <rect x="10" y="3" width="1" height="1" fill="#0a0806"/>
+  <!-- flat nose -->
+  <rect x="7" y="4" width="2" height="2" fill="#225533"/>
+  <!-- wide mouth -->
+  <rect x="3" y="6" width="10" height="1" fill="#0a0806"/>
+  <rect x="4" y="6" width="1" height="1" fill="#ccbbaa"/>
+  <rect x="7" y="6" width="2" height="1" fill="#ccbbaa"/>
+  <rect x="11" y="6" width="1" height="1" fill="#ccbbaa"/>
+  <!-- massive body -->
+  <rect x="1" y="7"  width="14" height="6" fill="#2d6638"/>
+  <!-- body shadow / depth -->
+  <rect x="1" y="7"  width="14" height="1" fill="#225533"/>
+  <rect x="1" y="12" width="14" height="1" fill="#1a4428"/>
+  <!-- arms dragging down — knuckles near bottom -->
+  <rect x="0"  y="7" width="2" height="7" fill="#337744"/>
+  <rect x="14" y="7" width="2" height="7" fill="#337744"/>
+  <!-- knuckles -->
+  <rect x="0"  y="13" width="3" height="2" fill="#449955"/>
+  <rect x="13" y="13" width="3" height="2" fill="#449955"/>
+  <!-- stubby legs -->
+  <rect x="4" y="13" width="3" height="3" fill="#2d6638"/>
+  <rect x="9" y="13" width="3" height="3" fill="#2d6638"/>
+</svg>

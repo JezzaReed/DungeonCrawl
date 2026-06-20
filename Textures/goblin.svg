@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- ears -->
+  <rect x="2" y="4" width="2" height="3" fill="#30aa30"/>
+  <rect x="12" y="4" width="2" height="3" fill="#30aa30"/>
+  <rect x="1" y="5" width="1" height="2" fill="#208820"/>
+  <rect x="14" y="5" width="1" height="2" fill="#208820"/>
+  <!-- head -->
+  <rect x="4" y="3" width="8" height="6" fill="#40cc40"/>
+  <!-- brow ridge -->
+  <rect x="4" y="3" width="8" height="1" fill="#30aa30"/>
+  <!-- eyes yellow -->
+  <rect x="5" y="5" width="2" height="2" fill="#ffee00"/>
+  <rect x="9" y="5" width="2" height="2" fill="#ffee00"/>
+  <!-- pupils -->
+  <rect x="6" y="5" width="1" height="1" fill="#0a0806"/>
+  <rect x="10" y="5" width="1" height="1" fill="#0a0806"/>
+  <!-- nose -->
+  <rect x="7" y="7" width="2" height="1" fill="#208820"/>
+  <!-- mouth / grin -->
+  <rect x="5" y="8" width="6" height="1" fill="#0a0806"/>
+  <rect x="6" y="8" width="1" height="1" fill="#ccbbaa"/>
+  <rect x="9" y="8" width="1" height="1" fill="#ccbbaa"/>
+  <!-- body -->
+  <rect x="5" y="9" width="6" height="4" fill="#30aa30"/>
+  <!-- ragged clothing -->
+  <rect x="5" y="9" width="6" height="1" fill="#223322"/>
+  <!-- arms -->
+  <rect x="3" y="9" width="2" height="3" fill="#40cc40"/>
+  <rect x="11" y="9" width="2" height="3" fill="#40cc40"/>
+  <!-- claws -->
+  <rect x="2" y="12" width="1" height="1" fill="#ccddcc"/>
+  <rect x="3" y="12" width="1" height="1" fill="#ccddcc"/>
+  <rect x="12" y="12" width="1" height="1" fill="#ccddcc"/>
+  <rect x="13" y="12" width="1" height="1" fill="#ccddcc"/>
+  <!-- legs -->
+  <rect x="5" y="13" width="2" height="3" fill="#40cc40"/>
+  <rect x="9" y="13" width="2" height="3" fill="#40cc40"/>
+  <!-- feet -->
+  <rect x="4" y="15" width="3" height="1" fill="#30aa30"/>
+  <rect x="9" y="15" width="3" height="1" fill="#30aa30"/>
+</svg>

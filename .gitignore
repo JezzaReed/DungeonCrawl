@@ -1,0 +1,11 @@
+# Godot auto-generated (rebuilt on editor open)
+.godot/
+/android/
+
+# C# build artifacts
+obj/
+.vs/
+*.user
+
+# Export output
+export/
