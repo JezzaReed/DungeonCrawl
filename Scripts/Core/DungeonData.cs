@@ -26,6 +26,7 @@ public class DungeonData
     public Vector2I StairsPos   { get; set; }
     public List<(Vector2I pos, EnemyType type)> EnemySpawns { get; } = new();
     public List<(Vector2I pos, ItemType  type)> ItemSpawns  { get; } = new();
+    public (Vector2I pos, EnemyType type)?      BossSpawn   { get; set; }
 
     public DungeonData(int w, int h)
     {

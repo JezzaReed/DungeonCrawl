@@ -44,7 +44,7 @@ public partial class MainMenuUI : Control
         // Controls hint
         var hint = new Label
         {
-            Text = "Arrow keys / WASD / Numpad to move\nBump enemies to attack · [.] to wait · [Esc] menu",
+            Text = "Arrow keys / WASD / Numpad to move\nBump enemies to attack · [Q] drink potion · [.] wait · [Esc] menu",
             HorizontalAlignment = HorizontalAlignment.Center,
         };
         hint.AddThemeFontSizeOverride("font_size", 13);

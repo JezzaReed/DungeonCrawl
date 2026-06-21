@@ -21,6 +21,7 @@ public class PlayerData
     public int      XpToNextLevel  { get; set; } = 50;
     public int      KillCount      { get; set; } = 0;
     public int      Score          { get; set; } = 0;
+    public int      Potions        { get; set; } = 0;
     public string   KilledBy       { get; set; } = "the dungeon";
 
     public void AddXp(int amount, MessageLog log)

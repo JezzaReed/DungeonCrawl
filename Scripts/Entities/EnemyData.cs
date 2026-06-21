@@ -8,14 +8,45 @@ public class EnemyData
     public EnemyType   Type    { get; }
     public EntityStats Stats   { get; }
     public Vector2I    GridPos { get; set; }
+    public bool        IsBoss  { get; }
     public bool        IsDead  => !Stats.IsAlive;
 
-    public EnemyData(EnemyType type, Vector2I pos, int floor)
+    public EnemyData(EnemyType type, Vector2I pos, int floor, bool isBoss = false)
     {
         Type    = type;
         GridPos = pos;
+        IsBoss  = isBoss;
         Stats   = MakeStats(type, floor);
+
+        if (isBoss)
+        {
+            Stats.MaxHp    = Stats.MaxHp * 3;
+            Stats.Hp       = Stats.MaxHp;
+            Stats.Attack  += floor / 2 + 2;
+            Stats.Defense += 2;
+            Stats.XpReward = Stats.XpReward * 5;
+            Stats.Name     = BossNameFor(floor);
+        }
     }
+
+    // ── Boss identity ──────────────────────────────────────────────
+    public static bool IsBossFloor(int floor) => floor % 5 == 0;
+
+    /// <summary>Which (visual) enemy type represents the boss on this floor.</summary>
+    public static EnemyType BossTypeFor(int floor) => (floor / 5) switch
+    {
+        1   => EnemyType.Orc,
+        2   => EnemyType.Troll,
+        _   => EnemyType.Dragon,
+    };
+
+    private static string BossNameFor(int floor) => (floor / 5) switch
+    {
+        1   => "Gruul the Orc Warlord",
+        2   => "Morggok the Troll King",
+        3   => "Vaskarr the Dragon Tyrant",
+        _   => "Ancient Wyrm of the Deep",
+    };
 
     private static EntityStats MakeStats(EnemyType t, int floor) => t switch
     {

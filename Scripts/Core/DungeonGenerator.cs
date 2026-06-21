@@ -81,15 +81,36 @@ public class DungeonGenerator
         int maxIdx = Math.Clamp(floor, 0, allEnemies.Length - 1);
         var allItems = (ItemType[])Enum.GetValues(typeof(ItemType));
 
+        bool bossFloor = EnemyData.IsBossFloor(floor);
+        int  bossRoom  = _d.Rooms.Count - 1; // last room = stairs room = arena
+
         for (int i = 1; i < _d.Rooms.Count; i++)
         {
             var room = _d.Rooms[i];
+
+            // The boss room is reserved for the boss + its hoard
+            if (bossFloor && i == bossRoom) continue;
+
             int count = _rng.Next(1, 2 + floor / 2);
             for (int e = 0; e < count; e++)
                 _d.EnemySpawns.Add((RandomInRoom(room), allEnemies[_rng.Next(0, maxIdx + 1)]));
 
             if (_rng.Next(3) == 0)
                 _d.ItemSpawns.Add((RandomInRoom(room), allItems[_rng.Next(allItems.Length)]));
+        }
+
+        if (bossFloor && _d.Rooms.Count > 1)
+        {
+            var arena = _d.Rooms[bossRoom];
+
+            // Boss guards the stairs; place it a little off the exact stairs tile
+            Vector2I bossPos = RandomInRoom(arena);
+            if (bossPos == _d.StairsPos) bossPos += new Vector2I(1, 0);
+            _d.BossSpawn = (bossPos, EnemyData.BossTypeFor(floor));
+
+            // Guaranteed hoard as a reward for clearing the floor
+            _d.ItemSpawns.Add((RandomInRoom(arena), ItemType.HealthPotion));
+            _d.ItemSpawns.Add((RandomInRoom(arena), allItems[_rng.Next(allItems.Length)]));
         }
     }
 

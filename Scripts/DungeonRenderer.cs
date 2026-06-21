@@ -102,8 +102,9 @@ public partial class DungeonRenderer : Node2D
 
         switch (key.Keycode)
         {
-            case Key.Period or Key.Kp5: gm.TryWait(); break;
-            case Key.Escape:            ReturnToMenu(); break;
+            case Key.Period or Key.Kp5: gm.TryWait();      break;
+            case Key.Q:                 gm.TryUsePotion(); break;
+            case Key.Escape:            ReturnToMenu();    break;
         }
     }
 
@@ -189,10 +190,23 @@ public partial class DungeonRenderer : Node2D
             if (item != null && !item.Collected && _texItems.TryGetValue(item.Type, out var itemTex))
                 DrawTextureRect(itemTex, rect, false);
 
-            // Enemy
+            // Enemy (bosses drawn in a later pass so they aren't clipped)
             var enemy = gm.GetEnemyAt(pos);
-            if (enemy != null && _texEnemies.TryGetValue(enemy.Type, out var enemyTex))
+            if (enemy != null && !enemy.IsBoss && _texEnemies.TryGetValue(enemy.Type, out var enemyTex))
                 DrawTextureRect(enemyTex, rect, false);
+        }
+
+        // Bosses: drawn larger and on top of terrain, after the tile pass
+        foreach (var boss in gm.Enemies)
+        {
+            if (!boss.IsBoss || boss.IsDead) continue;
+            if (!visible.Contains(boss.GridPos) && !explored.Contains(boss.GridPos)) continue;
+            if (!_texEnemies.TryGetValue(boss.Type, out var bossTex)) continue;
+
+            const float scale = 1.8f;
+            float size = TS * scale;
+            float off  = (size - TS) / 2f;
+            DrawTextureRect(bossTex, new Rect2(boss.GridPos.X * TS - off, boss.GridPos.Y * TS - off, size, size), false);
         }
 
         // Player always on top

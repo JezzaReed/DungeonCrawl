@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 namespace NewGameProject;
@@ -24,7 +25,11 @@ public partial class GameManager : Node
     public RunRecord? LastRun     { get; private set; }
     public int        LastRunRank { get; private set; } = -1;
 
+    // ── Pending between-floor upgrade choice ───────────────────────
+    public IReadOnlyList<ItemType>? PendingUpgrades { get; private set; }
+
     private readonly DungeonGenerator _gen = new();
+    private readonly Random           _rng = new();
 
     public override void _Ready() => Instance = this;
 
@@ -53,6 +58,13 @@ public partial class GameManager : Node
         foreach (var (pos, type) in Dungeon.ItemSpawns)
             Items.Add(new Item(type, pos));
 
+        if (Dungeon.BossSpawn is { } bs)
+        {
+            var boss = new EnemyData(bs.type, bs.pos, floor, isBoss: true);
+            Enemies.Add(boss);
+            Log.Add($"⚔ {boss.Stats.Name} guards the stairs on this floor!", "#ff5555");
+        }
+
         Player!.GridPos = Dungeon.PlayerStart;
         Player!.Floor   = floor;
         UpdateFov();
@@ -70,6 +82,7 @@ public partial class GameManager : Node
     {
         if (Player == null || Dungeon == null) return false;
         if (Turns.State != TurnState.PlayerTurn) return false;
+        if (PendingUpgrades != null) return false;
 
         var newPos = Player.GridPos + delta;
 
@@ -79,7 +92,15 @@ public partial class GameManager : Node
             MeleeAttack(Player.Stats, enemy.Stats, $"You", enemy.Stats.Name);
             if (enemy.IsDead)
             {
-                Log.Add($"The {enemy.Stats.Name} is slain!", "#ff8844");
+                if (enemy.IsBoss)
+                {
+                    Log.Add($"★ {enemy.Stats.Name} has been vanquished! The way down is clear.", "#ffdd44");
+                    Player.Score += enemy.Stats.XpReward; // extra boss bonus on top of the kill reward
+                }
+                else
+                {
+                    Log.Add($"The {enemy.Stats.Name} is slain!", "#ff8844");
+                }
                 Player.AddXp(enemy.Stats.XpReward, Log);
                 Player.KillCount++;
                 Player.Score += enemy.Stats.XpReward;
@@ -112,7 +133,35 @@ public partial class GameManager : Node
     public bool TryWait()
     {
         if (Turns.State != TurnState.PlayerTurn) return false;
+        if (PendingUpgrades != null) return false;
         Log.Add("You wait.", "#666666");
+        EndPlayerTurn();
+        return true;
+    }
+
+    public bool TryUsePotion()
+    {
+        if (Player == null) return false;
+        if (Turns.State != TurnState.PlayerTurn) return false;
+        if (PendingUpgrades != null) return false;
+
+        if (Player.Potions <= 0)
+        {
+            Log.Add("You have no potions.", "#888888");
+            EmitSignal(SignalName.StateChanged);
+            return false;
+        }
+        if (Player.Stats.Hp >= Player.Stats.MaxHp)
+        {
+            Log.Add("You are already at full health.", "#888888");
+            EmitSignal(SignalName.StateChanged);
+            return false;
+        }
+
+        int heal = 20 + Player.Floor * 3;
+        Player.Potions--;
+        Player.Stats.Heal(heal);
+        Log.Add($"You drink a Health Potion, restoring {heal} HP. ({Player.Potions} left)", "#ff6666");
         EndPlayerTurn();
         return true;
     }
@@ -195,9 +244,31 @@ public partial class GameManager : Node
         Log.Add($"You descend to floor {next}. The darkness deepens…", "#888888");
         ExploredTiles.Clear();
         GenerateFloor(next);
-        // Run enemy turns for the new floor (they won't be adjacent yet, so nothing happens)
-        Turns.EndPlayerTurn();
-        ProcessEnemyTurns();
+        OfferUpgrades();
+        EmitSignal(SignalName.StateChanged);
+    }
+
+    // ── Between-floor upgrade choice ────────────────────────────────
+    private void OfferUpgrades()
+    {
+        var all = (ItemType[])Enum.GetValues(typeof(ItemType));
+
+        // Pick two distinct options
+        int a = _rng.Next(all.Length);
+        int b = _rng.Next(all.Length - 1);
+        if (b >= a) b++;
+
+        PendingUpgrades = new[] { all[a], all[b] };
+        Log.Add("Choose a reward for reaching the next floor.", "#c8a020");
+    }
+
+    public void ChooseUpgrade(ItemType type)
+    {
+        if (Player == null || PendingUpgrades == null) return;
+        if (!PendingUpgrades.Contains(type)) return;
+
+        new Item(type, Vector2I.Zero).Apply(Player, Log);
+        PendingUpgrades = null;
         EmitSignal(SignalName.StateChanged);
     }
 

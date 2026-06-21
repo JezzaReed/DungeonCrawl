@@ -97,6 +97,7 @@ public partial class HUD : Control
             $"[color=#aaaacc]HP[/color]  {hpBar} [color={hpCol}]{s.Hp}[/color][color=#555555]/{s.MaxHp}[/color]\n" +
             $"[color=#aaaacc]XP[/color]  {xpBar} [color=#8866ff]{gm.Player.Xp}[/color][color=#555555]/{gm.Player.XpToNextLevel}[/color]\n" +
             $"[color=#aaaacc]ATK[/color] {s.Attack}   [color=#aaaacc]DEF[/color] {s.Defense}   " +
+            $"[color=#ff6666]Potions[/color] {gm.Player.Potions} [color=#555555]([Q])[/color]\n" +
             $"[color=#aaaacc]Kills[/color] {gm.Player.KillCount}   [color=#aaaacc]Score[/color] {gm.Player.Score}";
 
         var msgs = gm.Log.Messages;

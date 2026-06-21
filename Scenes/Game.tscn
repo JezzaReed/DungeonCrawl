@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://Scripts/DungeonRenderer.cs" id="1"]
 [ext_resource type="Script" path="res://Scripts/UI/HUD.cs" id="2"]
+[ext_resource type="Script" path="res://Scripts/UI/UpgradeChoiceUI.cs" id="3"]
 
 [node name="Game" type="Node"]
 
@@ -17,3 +18,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 script = ExtResource("2")
+
+[node name="UpgradeChoice" type="Control" parent="UILayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("3")

@@ -24,9 +24,8 @@ public class Item
         switch (Type)
         {
             case ItemType.HealthPotion:
-                int heal = 20 + player.Floor * 3;
-                player.Stats.Heal(heal);
-                log.Add($"You drink a Health Potion, restoring {heal} HP.", "#ff6666");
+                player.Potions++;
+                log.Add($"You pocket a Health Potion. ([Q] to drink — you have {player.Potions})", "#ff6666");
                 break;
             case ItemType.Sword:
                 player.Stats.Attack  += 3;
