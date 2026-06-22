@@ -70,18 +70,9 @@ public partial class GameOverUI : Control
         var spacer = new Control { CustomMinimumSize = new Vector2(0, 10) };
         vbox.AddChild(spacer);
 
-        vbox.AddChild(MakeButton("Play Again",  OnPlayAgain,  "#44cc44"));
-        vbox.AddChild(MakeButton("Leaderboard", OnLeaderboard, "#c8a020"));
-        vbox.AddChild(MakeButton("Quit",        OnQuit,       "#cc4444"));
-    }
-
-    private Button MakeButton(string text, System.Action onPress, string hex)
-    {
-        var btn = new Button { Text = text, CustomMinimumSize = new Vector2(280, 52) };
-        btn.AddThemeFontSizeOverride("font_size", 22);
-        btn.AddThemeColorOverride("font_color", Color.FromHtml(hex));
-        btn.Pressed += onPress;
-        return btn;
+        vbox.AddChild(UiBuilder.MakeButton("Play Again",  OnPlayAgain,   "#44cc44"));
+        vbox.AddChild(UiBuilder.MakeButton("Leaderboard", OnLeaderboard, "#c8a020"));
+        vbox.AddChild(UiBuilder.MakeButton("Quit",        OnQuit,        "#cc4444"));
     }
 
     private void OnPlayAgain() => GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");

@@ -104,7 +104,7 @@ public partial class DungeonRenderer : Node2D
         {
             case Key.Period or Key.Kp5: gm.TryWait();      break;
             case Key.Q:                 gm.TryUsePotion(); break;
-            case Key.Escape:            ReturnToMenu();    break;
+            case Key.Escape:            gm.TogglePause();  break;
         }
     }
 
@@ -114,7 +114,7 @@ public partial class DungeonRenderer : Node2D
         if (_heldDir == Vector2I.Zero) return;
 
         var gm = GameManager.Instance;
-        if (gm.Turns.State != TurnState.PlayerTurn)
+        if (gm.Turns.State != TurnState.PlayerTurn || gm.IsPaused)
         {
             _heldDir = Vector2I.Zero;
             return;
@@ -127,13 +127,6 @@ public partial class DungeonRenderer : Node2D
             _repeatDelay = Math.Max(MinInterval, _repeatDelay - SpeedUp);
             _holdTimer   = _repeatDelay;
         }
-    }
-
-    private bool ReturnToMenu()
-    {
-        _heldDir = Vector2I.Zero;
-        GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
-        return true;
     }
 
     private void OnStateChanged()

@@ -37,14 +37,14 @@ public partial class MainMenuUI : Control
         vbox.AddChild(spacer);
 
         // Buttons
-        vbox.AddChild(MakeButton("New Game",    OnNewGame,    "#44cc44"));
-        vbox.AddChild(MakeButton("High Scores", OnHighScores, "#c8a020"));
-        vbox.AddChild(MakeButton("Quit",        OnQuit,       "#cc4444"));
+        vbox.AddChild(UiBuilder.MakeButton("New Game",    OnNewGame,    "#44cc44"));
+        vbox.AddChild(UiBuilder.MakeButton("High Scores", OnHighScores, "#c8a020"));
+        vbox.AddChild(UiBuilder.MakeButton("Quit",        OnQuit,       "#cc4444"));
 
         // Controls hint
         var hint = new Label
         {
-            Text = "Arrow keys / WASD / Numpad to move\nBump enemies to attack · [Q] drink potion · [.] wait · [Esc] menu",
+            Text = "Arrow keys / WASD / Numpad to move\nBump enemies to attack · [Q] drink potion · [.] wait · [Esc] pause",
             HorizontalAlignment = HorizontalAlignment.Center,
         };
         hint.AddThemeFontSizeOverride("font_size", 13);
@@ -63,15 +63,6 @@ public partial class MainMenuUI : Control
         build.AddThemeFontSizeOverride("font_size", 12);
         build.AddThemeColorOverride("font_color", Color.FromHtml("#444433"));
         AddChild(build);
-    }
-
-    private Button MakeButton(string text, System.Action onPress, string hexColor)
-    {
-        var btn = new Button { Text = text, CustomMinimumSize = new Vector2(280, 52) };
-        btn.AddThemeFontSizeOverride("font_size", 22);
-        btn.AddThemeColorOverride("font_color", Color.FromHtml(hexColor));
-        btn.Pressed += onPress;
-        return btn;
     }
 
     private void OnNewGame()    => GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");

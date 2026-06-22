@@ -28,6 +28,9 @@ public partial class GameManager : Node
     // ── Pending between-floor upgrade choice ───────────────────────
     public IReadOnlyList<ItemType>? PendingUpgrades { get; private set; }
 
+    // ── Pause ──────────────────────────────────────────────────────
+    public bool IsPaused { get; private set; }
+
     private readonly DungeonGenerator _gen = new();
     private readonly Random           _rng = new();
 
@@ -82,7 +85,7 @@ public partial class GameManager : Node
     {
         if (Player == null || Dungeon == null) return false;
         if (Turns.State != TurnState.PlayerTurn) return false;
-        if (PendingUpgrades != null) return false;
+        if (PendingUpgrades != null || IsPaused) return false;
 
         var newPos = Player.GridPos + delta;
 
@@ -115,9 +118,8 @@ public partial class GameManager : Node
         UpdateFov();
 
         var item = GetItemAt(newPos);
-        if (item != null && !item.Collected)
+        if (item != null && !item.Collected && item.Apply(Player, Log))
         {
-            item.Apply(Player, Log);
             item.Collected = true;
             Player.Score += 10;
         }
@@ -133,7 +135,7 @@ public partial class GameManager : Node
     public bool TryWait()
     {
         if (Turns.State != TurnState.PlayerTurn) return false;
-        if (PendingUpgrades != null) return false;
+        if (PendingUpgrades != null || IsPaused) return false;
         Log.Add("You wait.", "#666666");
         EndPlayerTurn();
         return true;
@@ -143,7 +145,7 @@ public partial class GameManager : Node
     {
         if (Player == null) return false;
         if (Turns.State != TurnState.PlayerTurn) return false;
-        if (PendingUpgrades != null) return false;
+        if (PendingUpgrades != null || IsPaused) return false;
 
         if (Player.Potions <= 0)
         {
@@ -158,12 +160,38 @@ public partial class GameManager : Node
             return false;
         }
 
-        int heal = 20 + Player.Floor * 3;
+        int heal = Player.PotionHeal;
         Player.Potions--;
         Player.Stats.Heal(heal);
         Log.Add($"You drink a Health Potion, restoring {heal} HP. ({Player.Potions} left)", "#ff6666");
         EndPlayerTurn();
         return true;
+    }
+
+    // ── Pause / resign ──────────────────────────────────────────────
+    public void TogglePause()
+    {
+        if (Player == null || Turns.State == TurnState.GameOver || PendingUpgrades != null) return;
+        IsPaused = !IsPaused;
+        EmitSignal(SignalName.StateChanged);
+    }
+
+    public void ResumeGame()
+    {
+        if (!IsPaused) return;
+        IsPaused = false;
+        EmitSignal(SignalName.StateChanged);
+    }
+
+    /// <summary>Give up the run — banks the current score on the leaderboard, as if killed.</summary>
+    public void Resign()
+    {
+        if (Player == null) return;
+        IsPaused = false;
+        Player.KilledBy = "Resignation";
+        Turns.SetGameOver();
+        RecordRun();
+        EmitSignal(SignalName.StateChanged);
     }
 
     // ── Internal helpers ────────────────────────────────────────────

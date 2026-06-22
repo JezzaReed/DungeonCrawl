@@ -54,15 +54,13 @@ public partial class LeaderboardUI : Control
         var spacer = new Control { CustomMinimumSize = new Vector2(0, 10) };
         vbox.AddChild(spacer);
 
-        var back = new Button { Text = "Back", CustomMinimumSize = new Vector2(280, 48) };
-        back.AddThemeFontSizeOverride("font_size", 20);
-        back.AddThemeColorOverride("font_color", Color.FromHtml("#cccccc"));
-        back.Pressed += () =>
-        {
-            HighlightRank = -1;
-            GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
-        };
-        vbox.AddChild(back);
+        vbox.AddChild(UiBuilder.MakeButton("Back", OnBack, "#cccccc", height: 48, fontSize: 20));
+    }
+
+    private void OnBack()
+    {
+        HighlightRank = -1;
+        GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
     }
 
     private static readonly int[] ColWidths = { 36, 110, 70, 50, 70, 150 };

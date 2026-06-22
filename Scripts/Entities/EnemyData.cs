@@ -20,11 +20,11 @@ public class EnemyData
 
         if (isBoss)
         {
-            Stats.MaxHp    = Stats.MaxHp * 3;
+            Stats.MaxHp   *= 3;
             Stats.Hp       = Stats.MaxHp;
             Stats.Attack  += floor / 2 + 2;
             Stats.Defense += 2;
-            Stats.XpReward = Stats.XpReward * 5;
+            Stats.XpReward *= 5;
             Stats.Name     = BossNameFor(floor);
         }
     }

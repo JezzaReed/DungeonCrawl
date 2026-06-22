@@ -100,7 +100,7 @@ public partial class UpgradeChoiceUI : Control
         };
         card.AddChild(icon);
 
-        var name = new Label { Text = DisplayName(type), HorizontalAlignment = HorizontalAlignment.Center };
+        var name = new Label { Text = Item.NameOf(type), HorizontalAlignment = HorizontalAlignment.Center };
         name.AddThemeFontSizeOverride("font_size", 20);
         name.AddThemeColorOverride("font_color", Color.FromHtml("#ffffff"));
         card.AddChild(name);
@@ -125,15 +125,6 @@ public partial class UpgradeChoiceUI : Control
         ItemType.Shield       => "shield",
         ItemType.Scroll       => "scroll",
         _                     => "health_potion",
-    };
-
-    private static string DisplayName(ItemType t) => t switch
-    {
-        ItemType.HealthPotion => "Health Potion",
-        ItemType.Sword        => "Sword",
-        ItemType.Shield       => "Shield",
-        ItemType.Scroll       => "Scroll of Lightning",
-        _                     => "Unknown",
     };
 
     private static string EffectText(ItemType t) => t switch

@@ -12,7 +12,8 @@ namespace NewGameProject;
 public partial class HUD : Control
 {
     internal const int PanelHeight = 144; // 720 - 36*16
-    private const int StatsWidth  = 310;
+    private const int StatsWidth  = 460;
+    private const int MsgWidth    = 560;
     private const int MsgLines    = 6;
 
     private RichTextLabel _statsLabel = null!;
@@ -49,6 +50,7 @@ public partial class HUD : Control
             BbcodeEnabled  = true,
             FitContent     = false,
             ScrollActive   = false,
+            AutowrapMode   = TextServer.AutowrapMode.Off, // keep to 4 fixed lines
             CustomMinimumSize = new Vector2(StatsWidth, PanelHeight - 16),
         };
         statsBox.AddChild(_statsLabel);
@@ -63,10 +65,12 @@ public partial class HUD : Control
             BbcodeEnabled    = true,
             ScrollFollowing  = true,
             ScrollActive     = false,
-            SizeFlagsHorizontal = SizeFlags.ExpandFill,
-            CustomMinimumSize   = new Vector2(0, PanelHeight - 16),
+            CustomMinimumSize   = new Vector2(MsgWidth, PanelHeight - 16),
         };
         hbox.AddChild(_msgLabel);
+
+        // Trailing spacer absorbs surplus width so the message panel stays a fixed size
+        hbox.AddChild(new Control { SizeFlagsHorizontal = SizeFlags.ExpandFill });
 
         GameManager.Instance.StateChanged += Refresh;
         Refresh();
@@ -96,9 +100,9 @@ public partial class HUD : Control
             $"[color=#aaaacc]LVL[/color] [color=#ffffff]{gm.Player.Level}[/color]\n" +
             $"[color=#aaaacc]HP[/color]  {hpBar} [color={hpCol}]{s.Hp}[/color][color=#555555]/{s.MaxHp}[/color]\n" +
             $"[color=#aaaacc]XP[/color]  {xpBar} [color=#8866ff]{gm.Player.Xp}[/color][color=#555555]/{gm.Player.XpToNextLevel}[/color]\n" +
-            $"[color=#aaaacc]ATK[/color] {s.Attack}   [color=#aaaacc]DEF[/color] {s.Defense}   " +
-            $"[color=#ff6666]Potions[/color] {gm.Player.Potions} [color=#555555]([Q])[/color]\n" +
-            $"[color=#aaaacc]Kills[/color] {gm.Player.KillCount}   [color=#aaaacc]Score[/color] {gm.Player.Score}";
+            $"[color=#aaaacc]ATK[/color] {s.Attack}  [color=#aaaacc]DEF[/color] {s.Defense}  " +
+            $"[color=#ff6666]Pot[/color] {gm.Player.Potions}[color=#555555]/{PlayerData.MaxPotions}[/color]  " +
+            $"[color=#aaaacc]Kills[/color] {gm.Player.KillCount}  [color=#aaaacc]Score[/color] {gm.Player.Score}";
 
         var msgs = gm.Log.Messages;
         int start = Math.Max(0, msgs.Count - MsgLines);
